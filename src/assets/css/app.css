@@ -1,0 +1,63 @@
+
+/* Layout */
+
+.f-col { @apply flex flex-col; }
+.f-row { @apply flex flex-row; }
+
+hr {
+    @apply border w-full my-6;
+}
+
+/* Buttons */
+
+.btn {
+    @apply py-1 px-6 rounded-full font-semibold uppercase;
+}
+.btn-square {
+    @apply inline-block p-0 w-8 h-8 rounded font-bold text-3xl;
+    line-height: 1;
+    padding-bottom: 0.4rem;
+}
+.btn-round {
+    @apply inline-block p-0 w-8 h-8 rounded-full font-bold text-xl;
+    line-height: 1;
+    padding-bottom: 0.4rem;
+}
+
+.btn:focus, .btn-square:focus, .btn-round:focus {
+    @apply outline-none;
+}
+.btn:disabled, .btn-square:disabled, .btn-round:disabled {
+    @apply opacity-50;
+}
+.btn-primary {
+    @apply bg-primary text-white;
+}
+.btn-primary-reverse {
+    @apply bg-white text-primary;
+}
+.btn-secondary {
+    @apply bg-gray-400;
+}
+
+/* Inputs */
+
+input {
+    @apply border-2 rounded w-4/5 py-1 px-3;
+}
+
+input, .input-value {
+    @apply px-2;
+}
+input[type=number] {
+    @apply text-right;
+}
+
+/* Hide number input controls */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
