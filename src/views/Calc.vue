@@ -5,7 +5,8 @@
         <div class="flex my-3">
             <label class="col-start">Target</label>
             <div class="col-end">
-                <input type="number" min="0" step="0.01" v-model.number="target" @change="targetChanged()"/>
+                <input type="number" min="0" step="0.01" autofocus
+                       v-model.number="target" @change="targetChanged()"/>
             </div>
         </div>
 
@@ -181,6 +182,10 @@
         @apply py-1 px-3 rounded-full text-white font-bold;
         margin: .125rem;
     }
+    .solution-btn:focus {
+        @apply outline-none;
+    }
+
     .solution-btn.solution-btn-exact { @apply bg-equalBg; }
     .solution-btn.solution-btn-over  { @apply bg-positiveBg; }
     .solution-btn.solution-btn-under { @apply bg-negativeBg; }
