@@ -1,6 +1,6 @@
 {
-  "name": "ticket-calc",
-  "short_name": "ticket-calc",
+  "name": "Ticket-Calc",
+  "short_name": "Ticket-Calc",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

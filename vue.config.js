@@ -6,7 +6,15 @@ module.exports = {
     ],
 
     pwa: {
-      themeColor: '#E3001B',
-      msTileColor: '#E3001B'
+        name:        'Ticket-Calc',
+        themeColor:  '#E3001B',
+        msTileColor: '#E3001B',
+
+        appleMobileWebAppCapable:        'yes',
+        appleMobileWebAppStatusBarStyle: 'default',
+
+        workboxPluginMode: 'GenerateSW',
+        workboxOptions: {
+        }
     }
 };
