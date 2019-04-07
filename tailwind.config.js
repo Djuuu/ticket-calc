@@ -1,5 +1,5 @@
 module.exports = {
-    theme:    {
+    theme: {
         extend: {
             colors: {
                 primary:    '#e3001b',
@@ -11,6 +11,10 @@ module.exports = {
                 positive:   '#a40000',
                 negative:   '#668000',
                 equal:      '#008000',
+
+                positiveBg: '#798000',
+                negativeBg: '#cc001b',
+                equalBg:    '#009900',
 
                 gray:   {
                     100: '#fafafa',
@@ -25,7 +29,7 @@ module.exports = {
                 },
             },
         },
-        screens:            {
+        screens: {
             sm: '640px',
         },
         container: {

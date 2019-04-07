@@ -9,7 +9,27 @@
             </div>
         </div>
 
-        <div class="text-right">
+        <div class="flex">
+            <div class="col-start-full">
+                <template v-if="solutions && mode === 'auto'">
+                    <button class="solution-btn solution-btn-exact"
+                            v-for="(solution, index) in solutions['exact'].solutions" :key="'exact-' + index"
+                            @click="setSolution(solution)">
+                        ==
+                    </button>
+                    <button class="solution-btn solution-btn-over"
+                            v-for="(solution, index) in solutions['over'].solutions" :key="'over-' + index"
+                            @click="setSolution(solution)">
+                        &gt; {{ solutions['over'].diff | fixed2 }}
+                    </button>
+                    <button class="solution-btn solution-btn-under"
+                            v-for="(solution, index) in solutions['under'].solutions" :key="'under-' + index"
+                            @click="setSolution(solution)">
+                        &lt;
+                        {{ solutions['under'].diff | fixed2 }}
+                    </button>
+                </template>
+            </div>
             <span class="col-end">
                 <button class="btn btn-primary" type="button" v-if="mode === 'manual'" @click="mode = 'auto'">Auto</button>
                 <button class="btn btn-primary" type="button" v-if="mode === 'auto'" @click="mode = 'manual'">Manual</button>
@@ -69,7 +89,7 @@
 
 <script>
 
-    import {map, round, sumBy} from 'lodash';
+    import {map, round, sumBy, cloneDeep} from 'lodash';
     import {mapGetters}        from 'vuex'
 
     import TicketQuantity from '@/models/ticket-quantity';
@@ -122,6 +142,9 @@
                 this.solutions = new Calculator(this.tickets)
                     .optimizeCalc(this.target);
             },
+            setSolution(solution) {
+                this.ticketQuantities = cloneDeep(solution.ticketQuantities);
+            },
             reset() {
                 this.target = null;
                 this.ticketQuantities.forEach(tq => tq.quantity = 0);
@@ -137,6 +160,10 @@
     .col-start {
         @apply flex-grow pl-2;
     }
+    .col-start-full {
+        @apply flex-grow;
+        max-width: calc(100% - 10rem);
+    }
     .col-end {
         @apply inline-block text-center;
         width: 10rem;
@@ -149,6 +176,14 @@
         width: 104%;
         margin-left: -2%;
     }
+
+    .solution-btn {
+        @apply py-1 px-3 rounded-full text-white font-bold;
+        margin: .125rem;
+    }
+    .solution-btn.solution-btn-exact { @apply bg-equalBg; }
+    .solution-btn.solution-btn-over  { @apply bg-positiveBg; }
+    .solution-btn.solution-btn-under { @apply bg-negativeBg; }
 
     .result-value {
         @apply bg-gray-300 py-1 px-3 rounded-lg;
