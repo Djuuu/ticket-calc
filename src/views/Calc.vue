@@ -5,7 +5,7 @@
         <div class="flex my-3">
             <label class="col-start">Target</label>
             <div class="col-end">
-                <input type="number" min="0" step="0.01" v-model="target"/>
+                <input type="number" min="0" step="0.01" v-model="target" @change="targetChanged()"/>
             </div>
         </div>
 
@@ -73,6 +73,7 @@
     import {mapGetters}        from 'vuex'
 
     import TicketQuantity from '@/models/ticket-quantity';
+    import Calculator     from "@/services/calculator";
 
     export default {
         name:  'Calc',
@@ -81,10 +82,10 @@
         },
         data() {
             return {
-                target: null,
-                mode:   'auto',
+                target:           null,
+                mode:             'auto',
                 ticketQuantities: [],
-                balance: 0,
+                solutions:        null,
             };
         },
         created() {
@@ -106,19 +107,26 @@
                 }
                 return this.hasRemaining ? 'has-remaining' : 'has-extra';
             },
-
             ticketTotal() {
                 return round(
                     sumBy(this.ticketQuantities, tq => tq.total()),
                     2
                 );
+            },
+            balance() {
+                return round(this.target - this.ticketTotal, 2)
             }
         },
         methods: {
+            targetChanged() {
+                this.solutions = new Calculator(this.tickets)
+                    .optimizeCalc(this.target);
+            },
             reset() {
                 this.target = null;
                 this.ticketQuantities.forEach(tq => tq.quantity = 0);
                 this.mode = 'auto';
+                this.solutions = null;
             }
         },
     }
