@@ -40,6 +40,13 @@
         <hr>
 
         <div class="f-col">
+
+            <div class="w-full text-center my-3" v-if="ticketQuantities.length === 0">
+                <router-link to="/settings" class="btn btn-primary-reverse border-2 border-primary">
+                    + Add tickets
+                </router-link>
+            </div>
+
             <div class="f-row my-2" v-for="(ticketQuantity, index) in ticketQuantities" :key="index">
                 <span class="col-start f-row">
                     <span class="flex-grow"> {{ ticketQuantity.ticket.name }} </span>
