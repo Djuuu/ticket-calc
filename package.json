@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.0",
+    "lodash": "^4.17.11",
     "register-service-worker": "^1.6.2",
     "tailwindcss": "^1.0.0-beta.4",
     "vue": "^2.6.6",

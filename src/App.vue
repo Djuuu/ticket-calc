@@ -9,7 +9,7 @@
 
 <script>
 
-    import AppNav from './components/Nav';
+    import AppNav from '@/components/Nav';
 
     export default {
         components: {

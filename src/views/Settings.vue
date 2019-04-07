@@ -54,7 +54,9 @@
 
 <script>
 
-    import * as _ from 'lodash';
+    import {clone} from 'lodash';
+
+    import Ticket from '@/models/ticket';
 
     export default {
         name:  'Settings',
@@ -64,8 +66,8 @@
             return {
 
                 tickets: [
-                    {name: 'Lorem', value: 12},
-                    {name: 'Ipsum', value: 7.5},
+                    new Ticket('Lorem', 12),
+                    new Ticket('Ipsum', 7.5),
                 ],
                 newTicket: {
                     name: '',
@@ -75,7 +77,7 @@
         },
         methods: {
             addTicket() {
-                this.tickets.push(_.clone(this.newTicket));
+                this.tickets.push(clone(this.newTicket));
                 this.resetNewTicket();
             },
             resetNewTicket() {

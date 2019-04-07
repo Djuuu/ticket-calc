@@ -19,20 +19,20 @@
         <hr>
 
         <div class="f-col">
-            <div class="f-row my-2" v-for="ticket in tickets">
+            <div class="f-row my-2" v-for="(ticketQuantity, index) in ticketQuantities" :key="index">
                 <span class="col-start f-row">
-                    <span class="flex-grow"> {{ ticket.name }}          </span>
-                    <span class="mx-3">         @                       </span>
-                    <span class="flex-grow"> {{ ticket.value | fixed2 }}</span>
+                    <span class="flex-grow"> {{ ticketQuantity.ticket.name }} </span>
+                    <span class="mx-3">         @                             </span>
+                    <span class="flex-grow"> {{ ticketQuantity.ticket.value | fixed2 }}</span>
                 </span>
                 <div class="col-end">
-                    <button class="btn-square btn-primary text-xl" :disabled="mode === 'auto'">
+                    <button class="btn-square btn-primary align-middle text-xl" :disabled="mode === 'auto'" @click="ticketQuantity.sub()">
                         -
                     </button>
-                    <span class="input-value inline-block mx-2 w-12">
-                        {{ ticket.count }}
+                    <span class="input-value inline-block align-middle mx-2 w-12">
+                        {{ ticketQuantity.quantity }}
                     </span>
-                    <button class="btn-square btn-primary text-xl" :disabled="mode === 'auto'">
+                    <button class="btn-square btn-primary align-middle text-xl" :disabled="mode === 'auto'" @click="ticketQuantity.add()">
                         +
                     </button>
                 </div>
@@ -68,6 +68,12 @@
 </template>
 
 <script>
+
+    import {round, sumBy} from 'lodash';
+
+    import Ticket         from '@/models/ticket';
+    import TicketQuantity from '@/models/ticket-quantity';
+
     export default {
         name:  'Calc',
         props: {
@@ -75,14 +81,13 @@
         },
         data() {
             return {
-                target:      null,
-                mode:        'auto',
-                tickets:     [
-                    {name: 'toto', value: 123, count: 12},
-                    {name: 'tata', value: 456, count:  7},
+                target: null,
+                mode:   'auto',
+                ticketQuantities: [
+                    new TicketQuantity(new Ticket('Toto', 12.3), 3),
+                    new TicketQuantity(new Ticket('Tata', 4.56), 2),
                 ],
-                ticketTotal: 123.45,
-                balance:     0,
+                balance: 0,
             };
         },
         computed: {
@@ -98,10 +103,24 @@
                 }
                 return this.hasRemaining ? 'has-remaining' : 'has-extra';
             },
+
+            ticketTotal() {
+
+                const ticketQuantityTotalSum = sumBy(
+                    this.ticketQuantities,
+                    ticketQuantity => ticketQuantity.total()
+                );
+
+                return round(ticketQuantityTotalSum, 2);
+            }
         },
         methods: {
             reset() {
                 this.target = null;
+                this.ticketQuantities.forEach(ticketQuantity => {
+                    ticketQuantity.quantity = 0;
+                });
+                this.mode = 'auto';
             }
         }
     }
