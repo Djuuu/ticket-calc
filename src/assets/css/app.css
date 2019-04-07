@@ -15,7 +15,7 @@ hr {
 }
 .btn-square {
     @apply inline-block p-0 w-8 h-8 rounded font-bold text-3xl;
-    line-height: 1;
+    line-height: 0.8;
     padding-bottom: 0.4rem;
 }
 .btn-round {

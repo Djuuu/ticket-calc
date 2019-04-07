@@ -7,7 +7,7 @@
         </h1>
 
         <div class="f-col my-3">
-            <div class="f-row px-3 my-2" v-for="(ticket, index) in tickets" :key="index">
+            <div class="f-row px-3 pb-3 mt-3 border-b last-child:border-b-0" v-for="(ticket, index) in tickets" :key="index">
 
                 <span class="w-1/2">{{ ticket.name }}</span>
                 <span class="mx-2"> @ </span>

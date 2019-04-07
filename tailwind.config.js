@@ -33,7 +33,23 @@ module.exports = {
         },
     },
     variants: {
+        borderStyle: ['responsive', 'first-child', 'last-child'],
+        borderWidth: ['responsive', 'first-child', 'last-child'],
     },
-    plugins:  [
+    plugins: [
+        function({ addVariant, e }) {
+            addVariant('first-child', ({ modifySelectors, separator }) => {
+                modifySelectors(({ className }) => {
+                    return `.${e(`first-child${separator}${className}`)}:first-child`
+                })
+            })
+        },
+        function({ addVariant, e }) {
+            addVariant('last-child', ({ modifySelectors, separator }) => {
+                modifySelectors(({ className }) => {
+                    return `.${e(`last-child${separator}${className}`)}:last-child`
+                })
+            })
+        },
     ]
 };
