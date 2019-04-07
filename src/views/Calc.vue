@@ -5,7 +5,7 @@
         <div class="flex my-3">
             <label class="col-start">Target</label>
             <div class="col-end">
-                <input type="number" min="0" step="0.01" v-model="target" @change="targetChanged()"/>
+                <input type="number" min="0" step="0.01" v-model.number="target" @change="targetChanged()"/>
             </div>
         </div>
 

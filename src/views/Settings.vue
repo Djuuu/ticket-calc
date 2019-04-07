@@ -30,7 +30,7 @@
                 </label>
                 <input class="block w-full border rounded "
                        id="ticket-name" type="text" placeholder="Name"
-                       v-model="newTicket.name">
+                       v-model.trim="newTicket.name">
             </div>
             <div class="w-1/2 px-3">
                 <label class="block text-s tracking-wide font-semibold mb-2"
@@ -39,7 +39,7 @@
                 </label>
                 <input class="block w-full border rounded "
                        id="ticket-value" type="number" min="0" step="0.01" placeholder="Value"
-                       v-model="newTicket.value">
+                       v-model.number="newTicket.value">
             </div>
 
             <div class="w-full text-center my-3">
