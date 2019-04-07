@@ -88,7 +88,11 @@
 
         <div class="flex justify-end my-8">
             <div class="col-end">
-                <button class="btn btn-primary mr-2" type="button" @click="reset()">Clear</button>
+                <button class="btn btn-primary mr-2" type="button"
+                        @click="reset()"
+                        :disabled="this.target === null && this.ticketTotal === 0">
+                    Clear
+                </button>
             </div>
         </div>
     </div>
@@ -147,6 +151,9 @@
         },
         methods: {
             targetChanged() {
+
+                if (this.tickets.length === 0) { return; }
+
                 this.solutions = new Calculator(this.tickets)
                     .optimizeCalc(this.target);
             },

@@ -43,7 +43,9 @@
             </div>
 
             <div class="w-full text-center my-3">
-                <button class="btn btn-primary-reverse border-2 border-primary" type="submit" @click="addTicketToStore">
+                <button class="btn btn-primary-reverse border-2 border-primary" type="submit"
+                        @click="addTicketToStore"
+                        :disabled="!newTicket.value">
                     + Add ticket
                 </button>
             </div>
