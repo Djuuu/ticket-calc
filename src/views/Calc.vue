@@ -69,9 +69,9 @@
 
 <script>
 
-    import {round, sumBy} from 'lodash';
+    import {map, round, sumBy} from 'lodash';
+    import {mapGetters}        from 'vuex'
 
-    import Ticket         from '@/models/ticket';
     import TicketQuantity from '@/models/ticket-quantity';
 
     export default {
@@ -83,14 +83,17 @@
             return {
                 target: null,
                 mode:   'auto',
-                ticketQuantities: [
-                    new TicketQuantity(new Ticket('Toto', 12.3), 3),
-                    new TicketQuantity(new Ticket('Tata', 4.56), 2),
-                ],
+                ticketQuantities: [],
                 balance: 0,
             };
         },
+        created() {
+            this.ticketQuantities = map(this.tickets, t => new TicketQuantity(t));
+        },
         computed: {
+            ...mapGetters([
+                'tickets'
+            ]),
             hasRemaining()    { return this.balance >= 0; },
             hasExtra()        { return this.balance < 0; },
             thePriceIsRight() { return this.balance === 0; },
@@ -105,24 +108,19 @@
             },
 
             ticketTotal() {
-
-                const ticketQuantityTotalSum = sumBy(
-                    this.ticketQuantities,
-                    ticketQuantity => ticketQuantity.total()
+                return round(
+                    sumBy(this.ticketQuantities, tq => tq.total()),
+                    2
                 );
-
-                return round(ticketQuantityTotalSum, 2);
             }
         },
         methods: {
             reset() {
                 this.target = null;
-                this.ticketQuantities.forEach(ticketQuantity => {
-                    ticketQuantity.quantity = 0;
-                });
+                this.ticketQuantities.forEach(tq => tq.quantity = 0);
                 this.mode = 'auto';
             }
-        }
+        },
     }
 </script>
 

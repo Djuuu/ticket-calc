@@ -7,13 +7,13 @@
         </h1>
 
         <div class="f-col my-3">
-            <div class="f-row px-3 my-2" v-for="ticket in tickets">
+            <div class="f-row px-3 my-2" v-for="(ticket, index) in tickets" :key="index">
 
                 <span class="w-1/2">{{ ticket.name }}</span>
                 <span class="mx-2"> @ </span>
                 <span class="flex-grow">{{ ticket.value | fixed2 }}</span>
 
-                <button class="btn-round btn-primary"> x </button>
+                <button class="btn-round btn-primary" @click="dropTicketFromStore(index)"> x </button>
             </div>
         </div>
 
@@ -43,7 +43,7 @@
             </div>
 
             <div class="w-full text-center my-3">
-                <button class="btn btn-primary-reverse border-2 border-primary" type="submit" @click="addTicket">
+                <button class="btn btn-primary-reverse border-2 border-primary" type="submit" @click="addTicketToStore">
                     + Add ticket
                 </button>
             </div>
@@ -54,31 +54,36 @@
 
 <script>
 
-    import {clone} from 'lodash';
-
-    import Ticket from '@/models/ticket';
+    import {clone}                  from 'lodash';
+    import {mapActions, mapGetters} from 'vuex'
 
     export default {
         name:  'Settings',
-        props: {
-        },
+        props: {},
         data() {
             return {
-
-                tickets: [
-                    new Ticket('Lorem', 12),
-                    new Ticket('Ipsum', 7.5),
-                ],
                 newTicket: {
                     name: '',
                     value: null,
                 },
             };
         },
+        computed: {
+            ...mapGetters([
+                'tickets'
+            ]),
+        },
         methods: {
-            addTicket() {
-                this.tickets.push(clone(this.newTicket));
+            ...mapActions([
+                'addTicket',
+                'dropTicket',
+            ]),
+            addTicketToStore() {
+                this.addTicket(clone(this.newTicket));
                 this.resetNewTicket();
+            },
+            dropTicketFromStore(index) {
+                this.dropTicket(index);
             },
             resetNewTicket() {
                 this.newTicket.name = '';
