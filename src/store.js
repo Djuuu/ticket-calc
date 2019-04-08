@@ -1,15 +1,17 @@
 import Vue  from 'vue';
 import Vuex from 'vuex';
 
-import Ticket from "@/models/ticket";
+import Storage from "@/services/storage";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state:     {
-        tickets: [
-        ],
+        tickets: [],
     },
+    plugins: [
+        new Storage('ticket-calc').plugin
+    ],
     getters: {
         tickets: state => state.tickets,
     },
