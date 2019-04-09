@@ -1,9 +1,9 @@
 <template>
     <div class="p-5">
 
-        <h1 class="font-extrabold text-center text-3xl mb-8">Ticket-Calc</h1>
+        <h1 class="font-extrabold text-center text-3xl mb-2">Ticket-Calc</h1>
 
-        <div class="bg-white mx-auto max-w-sm shadow-lg rounded-lg overflow-hidden">
+        <p class="text-sm text-center mb-4">Version {{ version }}</p>
 
             <a class="sm:flex sm:items-center px-6 py-4" href="https://github.com/Djuuu">
 
