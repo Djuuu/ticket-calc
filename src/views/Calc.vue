@@ -46,7 +46,7 @@
                     <span class="input-value result-value">{{ ticketTotal | fixed2 }}</span>
                 </div>
             </div>
-            <div class="f-row my-2" :class="{invisible: !target}">
+            <div class="f-row my-2" :class="{'invisible': !target}">
                 <span class="col-start">
                     {{ balanceLabel }}
                 </span>
