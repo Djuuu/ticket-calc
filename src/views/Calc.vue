@@ -5,7 +5,7 @@
             <label class="col-start">Target</label>
             <div class="col-end">
                 <input type="number" min="0" step="0.01" autofocus
-                       v-model.number.lazy="target" @change="targetChanged()"/>
+                       v-model.number.lazy="target" @change="targetChanged($event)"/>
             </div>
         </div>
 
@@ -133,12 +133,15 @@
             }
         },
         methods: {
-            targetChanged() {
+            targetChanged(event) {
 
                 if (this.tickets.length === 0) { return; }
 
                 this.solutions = new Calculator(this.tickets)
                     .optimizeCalc(this.target);
+
+                // Force blur to hide keyboard
+                event.target.blur();
             },
             selectSolution(solution) {
                 this.ticketQuantities = cloneDeep(solution.ticketQuantities);
