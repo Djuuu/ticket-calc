@@ -11,14 +11,15 @@
 
         <div class="flex">
             <div class="col-start-full">
-                <solution-buttons v-if="solutions && mode === 'auto'"
+                <solution-buttons v-if="solutions && auto"
                                   :solutions="solutions"
                                   @select="selectSolution"/>
             </div>
-
             <span class="col-end pb-1">
-                <button class="btn btn-primary" type="button" v-if="mode === 'manual'" @click="mode = 'auto'">Auto</button>
-                <button class="btn btn-primary" type="button" v-if="mode === 'auto'" @click="mode = 'manual'">Manual</button>
+                <toggle-button v-model="auto" name="mode" :sync="true"
+                               :labels="{checked: 'AUTO', unchecked: 'MANUAL'}"
+                               :width="115" :height="30" :margin="3"
+                               :css-colors="true" />
             </span>
         </div>
 
@@ -92,9 +93,9 @@
         data() {
             return {
                 target:           null,
-                mode:             'auto',
                 ticketQuantities: [],
                 solutions:        null,
+                auto:             true,
             };
         },
         created() {
@@ -105,7 +106,7 @@
                 'tickets'
             ]),
             calcButtonsDisabled() {
-                return this.mode === 'auto';
+                return this.auto;
             },
             ticketTotal() {
                 return round(
@@ -146,7 +147,7 @@
             reset() {
                 this.target = null;
                 this.ticketQuantities.forEach(tq => tq.quantity = 0);
-                this.mode = 'auto';
+                this.auto = true;
                 this.solutions = null;
             }
         },
@@ -181,5 +182,11 @@
     .has-remaining      { @apply text-positive; }
     .has-extra          { @apply text-negative; }
     .the-price-is-right { @apply text-equal; }
+
+    .vue-js-switch         .v-switch-core  { @apply bg-grayBlue; }
+    .vue-js-switch.toggled .v-switch-core  { @apply bg-primary; }
+    .vue-js-switch .v-switch-label         { @apply text-base; }
+    .vue-js-switch .v-switch-label.v-left  { @apply ml-5; }
+    .vue-js-switch .v-switch-label.v-right { @apply mr-1; }
 
 </style>
