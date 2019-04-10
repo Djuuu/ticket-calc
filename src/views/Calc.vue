@@ -16,10 +16,7 @@
                                   @select="selectSolution"/>
             </div>
             <span class="col-end pb-1">
-                <toggle-button v-model="auto" name="mode" :sync="true"
-                               :labels="{checked: 'AUTO', unchecked: 'MANUAL'}"
-                               :width="115" :height="30" :margin="3"
-                               :css-colors="true" />
+                <auto-toggle-button v-model="auto"></auto-toggle-button>
             </span>
         </div>
 
@@ -76,6 +73,7 @@
     import {cloneDeep, map, round, sumBy} from 'lodash';
     import {mapGetters}                   from 'vuex'
 
+    import AutoToggleButton  from '@/components/AutoToggleButton';
     import SolutionButtons   from "@/components/SolutionButtons";
     import TicketQuantityRow from "@/components/TicketQuantityRow";
     import TicketQuantity    from '@/models/ticket-quantity';
@@ -84,6 +82,7 @@
     export default {
         name:  'Calc',
         components: {
+            AutoToggleButton,
             SolutionButtons,
             TicketQuantityRow,
         },
