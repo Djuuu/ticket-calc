@@ -5,7 +5,7 @@
             <label class="col-start">Target</label>
             <div class="col-end">
                 <input type="number" min="0" step="0.01" autofocus
-                       v-model.number="target" @change="targetChanged()"/>
+                       v-model.number.lazy="target" @change="targetChanged()"/>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
                     <span class="input-value result-value">{{ ticketTotal | fixed2 }}</span>
                 </div>
             </div>
-            <div class="f-row my-2">
+            <div class="f-row my-2" :class="{invisible: !target}">
                 <span class="col-start">
                     {{ balanceLabel }}
                 </span>
@@ -58,9 +58,9 @@
             </div>
         </div>
 
-        <div class="flex justify-end my-8">
+        <div class="flex justify-end mt-4">
             <div class="col-end">
-                <button class="btn btn-primary mr-2" type="button"
+                <button class="btn btn-primary" type="button"
                         @click="reset()"
                         :disabled="this.target === null && this.ticketTotal === 0">
                     Clear

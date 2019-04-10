@@ -5,7 +5,7 @@
 .f-row { @apply flex flex-row; }
 
 hr {
-    @apply border w-full my-6;
+    @apply border w-full my-5;
 }
 
 /* Buttons */
