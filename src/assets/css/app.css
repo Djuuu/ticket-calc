@@ -14,13 +14,10 @@ hr {
     @apply py-1 px-6 rounded-full font-semibold uppercase;
 }
 .btn-square {
-    @apply inline-block p-0 w-8 h-8 rounded font-bold text-3xl;
-    line-height: 0.8;
-    padding-bottom: 0.4rem;
+    @apply inline-block p-0 w-8 h-8 rounded font-bold text-3xl leading-none;
 }
 .btn-round {
-    @apply inline-block p-0 w-8 h-8 rounded-full font-bold text-xl;
-    line-height: 1;
+    @apply inline-block p-0 w-8 h-8 rounded-full font-bold text-xl leading-none;
     padding-bottom: 0.4rem;
 }
 

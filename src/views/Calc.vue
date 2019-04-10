@@ -1,25 +1,20 @@
 <template>
     <div class="container f-col p-3">
 
-        <div class="flex my-3">
-            <label class="col-start">Target</label>
-            <div class="col-end">
-                <input type="number" min="0" step="0.01" autofocus
-                       v-model.number.lazy="target" @change="targetChanged()"/>
-            </div>
+        <div class="f-row items-center justify-between mb-5">
+            <label for="target" class="inline-block">
+                Target
+            </label>
+            <input type="number" id="target" min="0" step="0.01" autofocus
+                   class="inline-block w-1/3"
+                   v-model.number.lazy="target" @change="targetChanged($event)"/>
+            <auto-toggle-button v-model="auto"></auto-toggle-button>
         </div>
 
-        <div class="flex">
-            <div class="col-start-full">
-                <solution-buttons v-if="solutions && mode === 'auto'"
-                                  :solutions="solutions"
-                                  @select="selectSolution"/>
-            </div>
-
-            <span class="col-end pb-1">
-                <button class="btn btn-primary" type="button" v-if="mode === 'manual'" @click="mode = 'auto'">Auto</button>
-                <button class="btn btn-primary" type="button" v-if="mode === 'auto'" @click="mode = 'manual'">Manual</button>
-            </span>
+        <div class="solution-buttons-container px-5">
+            <solution-buttons v-if="solutions && auto"
+                              :solutions="solutions"
+                              @select="selectSolution"/>
         </div>
 
         <hr>
@@ -40,13 +35,13 @@
         <hr>
 
         <div class="f-col">
-            <div class="f-row my-2">
+            <div class="f-row mt-2">
                 <span class="col-start">Ticket total</span>
                 <div class="col-end-value">
                     <span class="input-value result-value">{{ ticketTotal | fixed2 }}</span>
                 </div>
             </div>
-            <div class="f-row my-2" :class="{'invisible': !target}">
+            <div class="f-row mt-2" :class="{'invisible': !target}">
                 <span class="col-start">
                     {{ balanceLabel }}
                 </span>
@@ -58,7 +53,7 @@
             </div>
         </div>
 
-        <div class="flex justify-end mt-4">
+        <div class="flex justify-end mt-4 text-base">
             <div class="col-end">
                 <button class="btn btn-primary" type="button"
                         @click="reset()"
@@ -75,6 +70,7 @@
     import {cloneDeep, map, round, sumBy} from 'lodash';
     import {mapGetters}                   from 'vuex'
 
+    import AutoToggleButton  from '@/components/AutoToggleButton';
     import SolutionButtons   from "@/components/SolutionButtons";
     import TicketQuantityRow from "@/components/TicketQuantityRow";
     import TicketQuantity    from '@/models/ticket-quantity';
@@ -83,6 +79,7 @@
     export default {
         name:  'Calc',
         components: {
+            AutoToggleButton,
             SolutionButtons,
             TicketQuantityRow,
         },
@@ -92,9 +89,9 @@
         data() {
             return {
                 target:           null,
-                mode:             'auto',
                 ticketQuantities: [],
                 solutions:        null,
+                auto:             true,
             };
         },
         created() {
@@ -105,7 +102,7 @@
                 'tickets'
             ]),
             calcButtonsDisabled() {
-                return this.mode === 'auto';
+                return this.auto;
             },
             ticketTotal() {
                 return round(
@@ -133,12 +130,15 @@
             }
         },
         methods: {
-            targetChanged() {
+            targetChanged(event) {
 
                 if (this.tickets.length === 0) { return; }
 
                 this.solutions = new Calculator(this.tickets)
                     .optimizeCalc(this.target);
+
+                // Force blur to hide keyboard
+                event.target.blur();
             },
             selectSolution(solution) {
                 this.ticketQuantities = cloneDeep(solution.ticketQuantities);
@@ -146,7 +146,7 @@
             reset() {
                 this.target = null;
                 this.ticketQuantities.forEach(tq => tq.quantity = 0);
-                this.mode = 'auto';
+                this.auto = true;
                 this.solutions = null;
             }
         },
@@ -158,16 +158,12 @@
     .col-start {
         @apply flex-grow pl-2;
     }
-    .col-start-full {
-        @apply flex-grow;
-        max-width: calc(100% - 10rem);
-    }
     .col-end {
         @apply inline-block text-center;
-        width: 10rem;
+        width: 8rem;
     }
     .col-end-value {
-        @apply text-right pr-8;
+        @apply text-right pr-6;
     }
 
     hr {
@@ -175,8 +171,13 @@
         margin-left: -2%;
     }
 
+    .solution-buttons-container {
+        min-height: 2.5rem; /*min-h-10*/
+    }
+
     .result-value {
-        @apply bg-gray-300 py-1 px-3 rounded-lg;
+        @apply inline-block bg-gray-300 py-1 px-3 rounded-lg align-bottom leading-tight;
+        min-width: 4.5rem;
     }
     .has-remaining      { @apply text-positive; }
     .has-extra          { @apply text-negative; }
