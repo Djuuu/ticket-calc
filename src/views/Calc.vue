@@ -1,37 +1,22 @@
 <template>
-
     <div class="container f-col p-3">
 
         <div class="flex my-3">
             <label class="col-start">Target</label>
             <div class="col-end">
                 <input type="number" min="0" step="0.01" autofocus
-                       v-model.number="target" @change="targetChanged()"/>
+                       v-model.number.lazy="target" @change="targetChanged()"/>
             </div>
         </div>
 
         <div class="flex">
             <div class="col-start-full">
-                <template v-if="solutions && mode === 'auto'">
-                    <button class="solution-btn solution-btn-exact"
-                            v-for="(solution, index) in solutions['exact'].solutions" :key="'exact-' + index"
-                            @click="setSolution(solution)">
-                        ==
-                    </button>
-                    <button class="solution-btn solution-btn-over"
-                            v-for="(solution, index) in solutions['over'].solutions" :key="'over-' + index"
-                            @click="setSolution(solution)">
-                        &gt; {{ solutions['over'].diff | fixed2 }}
-                    </button>
-                    <button class="solution-btn solution-btn-under"
-                            v-for="(solution, index) in solutions['under'].solutions" :key="'under-' + index"
-                            @click="setSolution(solution)">
-                        &lt;
-                        {{ solutions['under'].diff | fixed2 }}
-                    </button>
-                </template>
+                <solution-buttons v-if="solutions && mode === 'auto'"
+                                  :solutions="solutions"
+                                  @select="selectSolution"/>
             </div>
-            <span class="col-end">
+
+            <span class="col-end pb-1">
                 <button class="btn btn-primary" type="button" v-if="mode === 'manual'" @click="mode = 'auto'">Auto</button>
                 <button class="btn btn-primary" type="button" v-if="mode === 'auto'" @click="mode = 'manual'">Manual</button>
             </span>
@@ -47,24 +32,9 @@
                 </router-link>
             </div>
 
-            <div class="f-row my-2" v-for="(ticketQuantity, index) in ticketQuantities" :key="index">
-                <span class="col-start f-row">
-                    <span class="flex-grow"> {{ ticketQuantity.ticket.name }} </span>
-                    <span class="mx-3">         @                             </span>
-                    <span class="flex-grow"> {{ ticketQuantity.ticket.value | fixed2 }}</span>
-                </span>
-                <div class="col-end">
-                    <button class="btn-square btn-primary align-middle text-xl" :disabled="mode === 'auto'" @click="ticketQuantity.sub()">
-                        -
-                    </button>
-                    <span class="input-value inline-block align-middle mx-2 w-12">
-                        {{ ticketQuantity.quantity }}
-                    </span>
-                    <button class="btn-square btn-primary align-middle text-xl" :disabled="mode === 'auto'" @click="ticketQuantity.add()">
-                        +
-                    </button>
-                </div>
-            </div>
+            <ticket-quantity-row v-for="(ticketQuantity, index) in ticketQuantities" :key="index"
+                                 :ticket-quantity="ticketQuantity"
+                                 :buttons-disabled="calcButtonsDisabled" />
         </div>
 
         <hr>
@@ -76,39 +46,46 @@
                     <span class="input-value result-value">{{ ticketTotal | fixed2 }}</span>
                 </div>
             </div>
-            <div class="f-row my-2">
+            <div class="f-row my-2" :class="{invisible: !target}">
                 <span class="col-start">
-                    {{ remainingLabel }}
+                    {{ balanceLabel }}
                 </span>
                 <div class="col-end-value">
-                    <span class="input-value result-value" :class="remainingClass">{{ balance | abs | fixed2 }}</span>
+                    <span class="input-value result-value font-semibold" :class="balanceClass">
+                        {{ balance | abs | fixed2 }}
+                    </span>
                 </div>
             </div>
         </div>
 
-        <div class="flex justify-end my-8">
+        <div class="flex justify-end mt-4">
             <div class="col-end">
-                <button class="btn btn-primary mr-2" type="button"
+                <button class="btn btn-primary" type="button"
                         @click="reset()"
                         :disabled="this.target === null && this.ticketTotal === 0">
                     Clear
                 </button>
             </div>
         </div>
-    </div>
 
+    </div>
 </template>
 
 <script>
+    import {cloneDeep, map, round, sumBy} from 'lodash';
+    import {mapGetters}                   from 'vuex'
 
-    import {map, round, sumBy, cloneDeep} from 'lodash';
-    import {mapGetters}        from 'vuex'
-
-    import TicketQuantity from '@/models/ticket-quantity';
-    import Calculator     from "@/services/calculator";
+    import SolutionButtons   from "@/components/SolutionButtons";
+    import TicketQuantityRow from "@/components/TicketQuantityRow";
+    import TicketQuantity    from '@/models/ticket-quantity';
+    import Calculator        from "@/services/calculator";
 
     export default {
         name:  'Calc',
+        components: {
+            SolutionButtons,
+            TicketQuantityRow,
+        },
         props: {
             msg: String
         },
@@ -127,17 +104,8 @@
             ...mapGetters([
                 'tickets'
             ]),
-            hasRemaining()    { return this.balance >= 0; },
-            hasExtra()        { return this.balance < 0; },
-            thePriceIsRight() { return this.balance === 0; },
-            remainingLabel() {
-                return this.hasRemaining ? 'Remaining' : 'Extra';
-            },
-            remainingClass() {
-                if (this.thePriceIsRight) {
-                    return 'the-price-is-right';
-                }
-                return this.hasRemaining ? 'has-remaining' : 'has-extra';
+            calcButtonsDisabled() {
+                return this.mode === 'auto';
             },
             ticketTotal() {
                 return round(
@@ -147,6 +115,21 @@
             },
             balance() {
                 return round(this.target - this.ticketTotal, 2)
+            },
+            hasRemaining()    { return this.balance > 0; },
+            hasExtra()        { return this.balance < 0; },
+            thePriceIsRight() { return this.balance === 0; },
+            balanceLabel() {
+                return (this.hasRemaining || this.thePriceIsRight)
+                    ? 'Remaining'
+                    : 'Extra';
+            },
+            balanceClass() {
+                return {
+                    'the-price-is-right': this.thePriceIsRight,
+                    'has-remaining':      this.hasRemaining,
+                    'has-extra':          this.hasExtra,
+                };
             }
         },
         methods: {
@@ -157,7 +140,7 @@
                 this.solutions = new Calculator(this.tickets)
                     .optimizeCalc(this.target);
             },
-            setSolution(solution) {
+            selectSolution(solution) {
                 this.ticketQuantities = cloneDeep(solution.ticketQuantities);
             },
             reset() {
@@ -191,18 +174,6 @@
         width: 104%;
         margin-left: -2%;
     }
-
-    .solution-btn {
-        @apply py-1 px-3 rounded-full text-white font-bold;
-        margin: .125rem;
-    }
-    .solution-btn:focus {
-        @apply outline-none;
-    }
-
-    .solution-btn.solution-btn-exact { @apply bg-equalBg; }
-    .solution-btn.solution-btn-over  { @apply bg-positiveBg; }
-    .solution-btn.solution-btn-under { @apply bg-negativeBg; }
 
     .result-value {
         @apply bg-gray-300 py-1 px-3 rounded-lg;

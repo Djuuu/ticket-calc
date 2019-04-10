@@ -5,7 +5,7 @@
 .f-row { @apply flex flex-row; }
 
 hr {
-    @apply border w-full my-6;
+    @apply border w-full my-5;
 }
 
 /* Buttons */
@@ -45,7 +45,6 @@ hr {
 input {
     @apply border-2 rounded w-4/5 py-1 px-3;
 }
-
 input, .input-value {
     @apply px-2;
 }

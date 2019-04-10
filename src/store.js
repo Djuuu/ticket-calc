@@ -1,6 +1,7 @@
 import Vue  from 'vue';
 import Vuex from 'vuex';
 
+import Ticket  from "@/models/ticket";
 import Storage from "@/services/storage";
 
 Vue.use(Vuex);
@@ -13,7 +14,7 @@ export default new Vuex.Store({
         new Storage('ticket-calc').plugin
     ],
     getters: {
-        tickets: state => state.tickets,
+        tickets: state => state.tickets.map(Ticket.fromObject),
     },
     mutations: {
         addTicket(state, ticket) {

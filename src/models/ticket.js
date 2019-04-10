@@ -2,15 +2,23 @@
 export default class Ticket {
 
     name = '';
-    value = 0;
+    value = null;
 
     /**
      * @param {string} name
-     * @param {number} value
+     * @param {number|null} value
      */
-    constructor(name, value) {
+    constructor(name, value = null) {
         this.name = name;
         this.value = value;
+    }
+
+    /**
+     * @param {{name: string, value: number}} data
+     * @returns {Ticket}
+     */
+    static fromObject(data) {
+        return new Ticket(data.name, data.value);
     }
 
     /**
