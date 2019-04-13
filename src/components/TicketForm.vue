@@ -21,7 +21,7 @@
         </div>
 
         <div class="w-full text-center my-3">
-            <button class="btn btn-primary-reverse border-2 border-primary" type="submit"
+            <button class="btn btn-primary-reverse border-2 border-primary" type="submit" title="Add ticket"
                     @click="addTicketToStore"
                     :disabled="!ticket.value">
                 + Add ticket

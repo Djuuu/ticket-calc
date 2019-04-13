@@ -5,7 +5,7 @@
         <span class="mx-2"> @ </span>
         <span class="flex-grow">{{ ticket.value | fixed2 }}</span>
 
-        <button class="btn-round btn-primary" @click="dropTicketFromStore(index)"> x </button>
+        <button class="btn-round btn-primary" @click="dropTicketFromStore(index)" title="Delete"> x </button>
 
     </div>
 </template>

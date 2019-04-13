@@ -9,6 +9,7 @@
 
         <div class="inline-block text-center" style="width: 8rem;">
             <button class="btn-square btn-primary align-middle text-xl"
+                    title="Decrement"
                     :disabled="buttonsDisabled"
                     @click="ticketQuantity.sub()">
                 -
@@ -18,6 +19,7 @@
                 {{ ticketQuantity.quantity }}
             </span>
             <button class="btn-square btn-primary align-middle text-xl"
+                    title="Increment"
                     :disabled="buttonsDisabled"
                     @click="ticketQuantity.add()">
                 +
