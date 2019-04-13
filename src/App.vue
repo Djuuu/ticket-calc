@@ -32,6 +32,6 @@
 
 <style>
     .app-content {
-        max-height: calc(100vh - 7.5rem);
+        max-height: calc(100vh - 7.3rem);
     }
 </style>

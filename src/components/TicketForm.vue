@@ -1,21 +1,21 @@
 <template>
-    <div class="f-row flex-wrap my-3">
+    <div class="f-row flex-wrap my-3 p-1 border shadow-md rounded">
 
-        <div class="w-1/2 px-3">
-            <label class="block text-s tracking-wide font-semibold mb-2"
+        <div class="w-1/2 px-1">
+            <label class="block text-s tracking-wide mb-1"
                    for="ticket-name">
                 Name
             </label>
-            <input class="block w-full border rounded "
+            <input class="block w-full border rounded"
                    id="ticket-name" type="text" placeholder="Name"
                    v-model.trim="ticket.name">
         </div>
-        <div class="w-1/2 px-3">
-            <label class="block text-s tracking-wide font-semibold mb-2"
+        <div class="w-1/2 px-1">
+            <label class="block text-s tracking-wide mb-1"
                    for="ticket-value">
                 Value
             </label>
-            <input class="block w-full border rounded "
+            <input class="block w-full border rounded"
                    id="ticket-value" type="number" min="0" step="0.01" placeholder="Value"
                    v-model.number="ticket.value">
         </div>

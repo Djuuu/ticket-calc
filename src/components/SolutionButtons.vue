@@ -35,7 +35,6 @@
 </script>
 
 <style>
-
     .solution-btn {
         @apply py-1 px-3 mb-1 text-lg rounded-full text-white font-bold;
     }
@@ -45,5 +44,4 @@
     .solution-btn.solution-btn-exact { @apply bg-equalBg; }
     .solution-btn.solution-btn-over  { @apply bg-positiveBg; }
     .solution-btn.solution-btn-under { @apply bg-negativeBg; }
-
 </style>

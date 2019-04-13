@@ -33,21 +33,27 @@
             </div>
         </div>
 
-        <h2 class="font-semibold text-center text-lg mb-6">Made with:</h2>
+        <h2 class="font-semibold text-center text-lg mb-2">
+            Made with:
+        </h2>
 
-        <div class="made-with">
-            <a href="https://cli.vuejs.org/" target="_blank" rel="noopener">
-                <img src="https://cli.vuejs.org/favicon.png" alt="Vue CLI"
-                     class="tool-icon h-16 w-16 mx-2"/>
-                <span class="tool-label">Vue CLI</span>
+        <div class="flex flex-row justify-around max-w-sm mx-auto">
+            <a href="https://cli.vuejs.org/" target="_blank" rel="noopener"
+            class="tool-link">
+                <img src="https://cli.vuejs.org/favicon.png" alt="Vue CLI" class="tool-icon h-16 w-16 mx-2"/>
+                <span class="tool-label">
+                    Vue CLI
+                </span>
             </a>
-            <a href="https://tailwindcss.com/" target="_blank" rel="noopener">
-                <svg viewBox="6 6 36 36" xmlns="http://www.w3.org/2000/svg"
-                     class="tool-icon h-16 w-20">
+            <a href="https://tailwindcss.com/" target="_blank" rel="noopener"
+            class="tool-link">
+                <svg viewBox="6 6 36 36" xmlns="http://www.w3.org/2000/svg" class="tool-icon h-16 w-20">
                     <defs><linearGradient x1="0%" y1="0%" y2="100%" id="a"><stop stop-color="#2383AE" offset="0%"></stop><stop stop-color="#6DD7B9" offset="100%"></stop></linearGradient></defs>
                     <path d="M10 8c1.333-5.333 4.667-8 10-8 8 0 9 6 13 7 2.667.667 5-.333 7-3-1.333 5.333-4.667 8-10 8-8 0-9-6-13-7-2.667-.667-5 .333-7 3zM0 20c1.333-5.333 4.667-8 10-8 8 0 9 6 13 7 2.667.667 5-.333 7-3-1.333 5.333-4.667 8-10 8-8 0-9-6-13-7-2.667-.667-5 .333-7 3z" transform="translate(4 12)" fill="url(#a)" fill-rule="nonzero"></path>
                 </svg>
-                <span class="tool-label">Tailwind CSS</span>
+                <span class="tool-label">
+                    Tailwind CSS
+                </span>
             </a>
         </div>
 
@@ -65,11 +71,8 @@
 </script>
 
 <style>
-    .made-with {
-        @apply flex flex-row justify-around px-6;
-    }
-    .made-with a {
-        @apply flex flex-col items-center justify-center cursor-pointer;
+    .tool-link {
+        @apply flex flex-col items-center justify-center cursor-pointer p-3;
     }
     .tool-icon {
         @apply block;

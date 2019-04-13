@@ -1,5 +1,5 @@
 <template>
-    <div class="f-row my-2">
+    <div class="f-row py-2 mb-2 border shadow rounded">
 
         <span class="col-start f-row">
             <span class="flex-grow"> {{ ticketQuantity.ticket.name }} </span>
@@ -13,7 +13,8 @@
                     @click="ticketQuantity.sub()">
                 -
             </button>
-            <span class="input-value inline-block align-middle w-12">
+            <span class="input-value inline-block align-middle w-12"
+                  :class="{'font-semibold': ticketQuantity.quantity}">
                 {{ ticketQuantity.quantity }}
             </span>
             <button class="btn-square btn-primary align-middle text-xl"
@@ -45,8 +46,4 @@
 </script>
 
 <style>
-    .col-end {
-        @apply inline-block text-center;
-        width: 8rem;
-    }
 </style>

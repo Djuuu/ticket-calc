@@ -1,7 +1,7 @@
 <template>
     <div class="p-3">
 
-        <section class="f-row items-center justify-between">
+        <section class="f-row items-center justify-between py-2 border-b-2">
             <label for="target" class="inline-block">
                 Target
             </label>
@@ -18,14 +18,14 @@
             </div>
         </section>
 
-        <section class="solution-buttons-container pb-1">
+        <section class="solution-buttons-container my-1 pt-2 pb-1">
             <solution-buttons v-if="solutions && auto"
                               :solutions="solutions"
                               @select="selectSolution"/>
         </section>
 
-        <section class="f-col">
-            <div class="w-full text-center my-3" v-if="ticketQuantities.length === 0">
+        <section class="f-col py-1">
+            <div class="w-full text-center my-10" v-if="ticketQuantities.length === 0">
                 <router-link to="/settings" class="btn btn-primary-reverse border-2 border-primary">
                     + Add tickets
                 </router-link>
@@ -86,7 +86,7 @@
         },
         data() {
             return {
-                target:           32,
+                target:           null,
                 ticketQuantities: [],
                 solutions:        null,
                 auto:             true,
@@ -152,10 +152,6 @@
 </script>
 
 <style>
-
-    section {
-        @apply py-2 border-b-2;
-    }
     section:last-child {
         @apply border-b-0;
     }
@@ -166,16 +162,8 @@
         @apply text-right pr-6;
     }
 
-    hr {
-        width: 104%;
-        margin-left: -2%;
-    }
-
     .clear-btn {
         width: 115px;
-    }
-    .solution-buttons-container {
-        min-height: 3.4rem;
     }
 
     .result-value {
@@ -185,5 +173,4 @@
     .has-remaining      { @apply text-positive; }
     .has-extra          { @apply text-negative; }
     .the-price-is-right { @apply text-equal font-semibold; }
-
 </style>
