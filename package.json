@@ -1,6 +1,6 @@
 {
   "name": "ticket-calc",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Simple ticket calculator",
   "author": "Julien Tardot <julien@tardot.net>",
   "license": "MIT",

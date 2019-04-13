@@ -1,5 +1,5 @@
 <template>
-    <div class="p-3">
+    <div class="p-3 f-col">
 
         <section class="f-row items-center justify-between py-2 border-b-2">
             <label for="target" class="inline-block">
@@ -24,7 +24,7 @@
                               @select="selectSolution"/>
         </section>
 
-        <section class="f-col py-1">
+        <section class="flex-grow f-col justify-center py-1">
             <div class="w-full text-center my-10" v-if="ticketQuantities.length === 0">
                 <router-link to="/settings" class="btn btn-primary-reverse border-2 border-primary">
                     + Add tickets
@@ -35,7 +35,7 @@
                                  :buttons-disabled="calcButtonsDisabled" />
         </section>
 
-        <section class="f-col">
+        <section class="flex-grow-2 f-col">
             <div class="f-row mt-2">
                 <span class="col-start">Ticket total</span>
                 <div class="col-end-value">
@@ -164,6 +164,10 @@
 
     .clear-btn {
         width: 115px;
+    }
+
+    .flex-grow-2 {
+        flex-grow: 2;
     }
 
     .result-value {
