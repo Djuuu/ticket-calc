@@ -1,6 +1,7 @@
 <template>
 
     <toggle-button :value="value" @input="$emit('input', $event)" :sync="true"
+                   title="Auto / Manual toggle"
                    :labels="{checked: 'AUTO', unchecked: 'MANUAL'}"
                    :width="115" :height="30" :margin="3"
                    :css-colors="true"/>

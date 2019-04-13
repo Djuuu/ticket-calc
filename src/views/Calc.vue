@@ -1,67 +1,65 @@
 <template>
-    <div class="container f-col p-3">
+    <div class="p-3">
 
-        <div class="f-row items-center justify-between mb-5">
+        <section class="f-row items-center justify-between py-2 border-b-2">
             <label for="target" class="inline-block">
                 Target
             </label>
-            <input type="number" id="target" min="0" step="0.01" autofocus
-                   class="inline-block w-1/3"
+            <input type="number" id="target" min="0" max="1000" step="0.01" maxlength="3" autofocus
+                   style="width: 6rem;"
                    v-model.number.lazy="target" @change="targetChanged($event)"/>
-            <auto-toggle-button v-model="auto"></auto-toggle-button>
-        </div>
-
-        <div class="solution-buttons-container px-5">
-            <solution-buttons v-if="solutions && auto"
-                              :solutions="solutions"
-                              @select="selectSolution"/>
-        </div>
-
-        <hr>
-
-        <div class="f-col">
-
-            <div class="w-full text-center my-3" v-if="ticketQuantities.length === 0">
-                <router-link to="/settings" class="btn btn-primary-reverse border-2 border-primary">
-                    + Add tickets
-                </router-link>
-            </div>
-
-            <ticket-quantity-row v-for="(ticketQuantity, index) in ticketQuantities" :key="index"
-                                 :ticket-quantity="ticketQuantity"
-                                 :buttons-disabled="calcButtonsDisabled" />
-        </div>
-
-        <hr>
-
-        <div class="f-col">
-            <div class="f-row mt-2">
-                <span class="col-start">Ticket total</span>
-                <div class="col-end-value">
-                    <span class="input-value result-value">{{ ticketTotal | fixed2 }}</span>
-                </div>
-            </div>
-            <div class="f-row mt-2" :class="{'invisible': !target}">
-                <span class="col-start">
-                    {{ balanceLabel }}
-                </span>
-                <div class="col-end-value">
-                    <span class="input-value result-value font-semibold" :class="balanceClass">
-                        {{ balance | abs | fixed2 }}
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex justify-end mt-4 text-base">
-            <div class="col-end">
-                <button class="btn btn-primary" type="button"
+            <div class="inline-block text-center" style="width: 120px;">
+                <auto-toggle-button class="my-1" v-model="auto"></auto-toggle-button>
+                <button type="button" class="btn btn-primary clear-btn my-1"
                         @click="reset()"
                         :disabled="this.target === null && this.ticketTotal === 0">
                     Clear
                 </button>
             </div>
-        </div>
+        </section>
+
+        <section class="solution-buttons-container my-1 pt-2 pb-1">
+            <solution-buttons v-if="solutions && auto"
+                              :solutions="solutions"
+                              @select="selectSolution"/>
+        </section>
+
+        <section class="f-col py-1">
+            <div class="w-full text-center my-10" v-if="ticketQuantities.length === 0">
+                <router-link to="/settings" class="btn btn-primary-reverse border-2 border-primary">
+                    + Add tickets
+                </router-link>
+            </div>
+            <ticket-quantity-row v-for="(ticketQuantity, index) in ticketQuantities" :key="index"
+                                 :ticket-quantity="ticketQuantity"
+                                 :buttons-disabled="calcButtonsDisabled" />
+        </section>
+
+        <section class="f-col">
+            <div class="f-row mt-2">
+                <span class="col-start">Ticket total</span>
+                <div class="col-end-value">
+                    <span class="input-value result-value"
+                          :class="{'the-price-is-right': ticketTotal && this.thePriceIsRight}">
+                        {{ ticketTotal | fixed2 }}
+                    </span>
+                </div>
+            </div>
+            <div class="f-row mt-2" v-if="target && balance">
+                <span class="col-start">
+                    {{ balanceLabel }}
+                </span>
+                <div class="col-end-value">
+                    <span class="input-value result-value font-semibold" :class="{
+                        'the-price-is-right': this.thePriceIsRight,
+                        'has-remaining':      this.hasRemaining,
+                        'has-extra':          this.hasExtra,
+                    }">
+                        {{ balance | abs | fixed2 }}
+                    </span>
+                </div>
+            </div>
+        </section>
 
     </div>
 </template>
@@ -154,25 +152,18 @@
 </script>
 
 <style>
-
+    section:last-child {
+        @apply border-b-0;
+    }
     .col-start {
         @apply flex-grow pl-2;
-    }
-    .col-end {
-        @apply inline-block text-center;
-        width: 8rem;
     }
     .col-end-value {
         @apply text-right pr-6;
     }
 
-    hr {
-        width: 104%;
-        margin-left: -2%;
-    }
-
-    .solution-buttons-container {
-        min-height: 2.5rem; /*min-h-10*/
+    .clear-btn {
+        width: 115px;
     }
 
     .result-value {
@@ -181,6 +172,5 @@
     }
     .has-remaining      { @apply text-positive; }
     .has-extra          { @apply text-negative; }
-    .the-price-is-right { @apply text-equal; }
-
+    .the-price-is-right { @apply text-equal font-semibold; }
 </style>

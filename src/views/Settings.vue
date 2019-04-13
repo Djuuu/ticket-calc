@@ -1,16 +1,16 @@
 <template>
-    <div class="container f-col p-3">
+    <div class="p-3">
 
-        <h1 class="text-3xl font-semibold">
+        <h2 class="text-2xl font-semibold">
             Tickets
-        </h1>
+        </h2>
 
         <div class="f-col my-3">
             <ticket-row v-for="(ticket, index) in tickets" :key="index"
-                                :ticket="ticket" :index="index" />
+                        :ticket="ticket" :index="index" />
         </div>
 
-        <h2 class="mt-8 text-2xl font-semibold">
+        <h2 class="mt-4 text-xl font-semibold">
             Add a ticket
         </h2>
 

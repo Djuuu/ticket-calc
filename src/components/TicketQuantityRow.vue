@@ -1,5 +1,5 @@
 <template>
-    <div class="f-row my-2">
+    <div class="f-row py-2 mb-2 border shadow rounded">
 
         <span class="col-start f-row">
             <span class="flex-grow"> {{ ticketQuantity.ticket.name }} </span>
@@ -7,16 +7,19 @@
             <span class="flex-grow"> {{ ticketQuantity.ticket.value | fixed2 }}</span>
         </span>
 
-        <div class="col-end">
+        <div class="inline-block text-center" style="width: 8rem;">
             <button class="btn-square btn-primary align-middle text-xl"
+                    title="Decrement"
                     :disabled="buttonsDisabled"
                     @click="ticketQuantity.sub()">
                 -
             </button>
-            <span class="input-value inline-block align-middle mx-2 w-12">
+            <span class="input-value inline-block align-middle w-12"
+                  :class="{'font-semibold': ticketQuantity.quantity}">
                 {{ ticketQuantity.quantity }}
             </span>
             <button class="btn-square btn-primary align-middle text-xl"
+                    title="Increment"
                     :disabled="buttonsDisabled"
                     @click="ticketQuantity.add()">
                 +
