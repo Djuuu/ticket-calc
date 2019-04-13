@@ -1,5 +1,5 @@
 <template>
-    <div class="f-row flex-wrap justify-around">
+    <div class="f-row flex-wrap justify-around" style="min-height: 2.5rem;">
 
         <button class="solution-btn solution-btn-exact tracking-tighter"
                 v-for="(solution, index) in solutions['exact'].solutions" :key="'exact-' + index"
@@ -35,14 +35,15 @@
 </script>
 
 <style>
+
     .solution-btn {
         @apply py-1 px-3 mb-1 text-lg rounded-full text-white font-bold;
     }
     .solution-btn:focus {
         @apply outline-none;
     }
-
     .solution-btn.solution-btn-exact { @apply bg-equalBg; }
     .solution-btn.solution-btn-over  { @apply bg-positiveBg; }
     .solution-btn.solution-btn-under { @apply bg-negativeBg; }
+
 </style>

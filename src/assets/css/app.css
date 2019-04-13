@@ -4,14 +4,10 @@
 .f-col { @apply flex flex-col; }
 .f-row { @apply flex flex-row; }
 
-hr {
-    @apply border w-full my-5;
-}
-
 /* Buttons */
 
 .btn {
-    @apply py-1 px-6 rounded-full font-semibold uppercase;
+    @apply px-6 rounded-full font-semibold uppercase;
 }
 .btn-square {
     @apply inline-block p-0 w-8 h-8 rounded font-bold text-3xl leading-none;

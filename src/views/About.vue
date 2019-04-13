@@ -1,7 +1,7 @@
 <template>
-    <div class="p-5">
+    <div class="about-page p-5">
 
-        <h1 class="font-extrabold text-center text-3xl mb-2">Ticket-Calc</h1>
+        <h1 class="font-extrabold text-center text-3xl my-2">Ticket-Calc</h1>
 
         <p class="text-sm text-center mb-4">
             Version {{ version }}
@@ -65,6 +65,9 @@
 </script>
 
 <style>
+    .app-content.about-page {
+        max-height: calc(100vh - 4.2rem);
+    }
     .made-with {
         @apply flex flex-row justify-around px-6;
     }
