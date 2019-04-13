@@ -1,6 +1,6 @@
 <template>
     <nav class="text-center font-semibold text-2xl p-4">
-        <router-link to="/">
+        <router-link to="/" :exact="$route.name !== 'calc'">
             Calc
         </router-link>
         |
@@ -15,7 +15,7 @@
 </template>
 
 <style>
-    .router-link-exact-active {
+    .router-link-active {
         @apply text-primary;
     }
 </style>
